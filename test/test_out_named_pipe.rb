@@ -6,14 +6,14 @@ require 'fifo'
 Fluent::Test.setup
 
 class NamedPipeOutputTest < Test::Unit::TestCase
-  TEST_PATH = "named_pipe"
+  TEST_PATH = "out_named_pipe"
 
   setup do
     @tag = 'foo.bar'
   end
 
   teardown do
-    File.unlink(TEST_PATH)
+    File.unlink(TEST_PATH) rescue nil
   end
 
   def create_driver(conf)

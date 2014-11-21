@@ -4,6 +4,35 @@
 
 Named pipe input/output plugin for Fluentd.
 
+# Input Plugin
+
+## Configuration
+
+```apache
+<source>
+  type named_pipe
+  path /path/to/file
+  tag foo.bar
+  format ltsv
+</match>
+```
+
+## Parameters
+
+- path
+
+    The file path of the named pipe
+
+- tag
+
+    The emit tag name
+
+- format
+
+    The input format such as regular expression, `apache2`, `ltsv`, etc. Same with `in_tail` plugin. See http://docs.fluentd.org/articles/in_tail
+
+# Output Plugin
+
 ## Configuration
 
 ```apache
