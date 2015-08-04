@@ -23,8 +23,8 @@ module Fluent
         raise ConfigError, "#{e.class}: #{e.message}"
       end
 
-      conf['format'] = @format
-      @formatter = TextFormatter.create(conf)
+      @formatter = Plugin.new_formatter(@format)
+      @formatter.configure(conf)
     end
 
     def shutdown
