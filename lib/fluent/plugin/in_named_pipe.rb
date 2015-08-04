@@ -25,7 +25,7 @@ module Fluent
         raise ConfigError, "#{e.class}: #{e.message}"
       end
 
-      @parser = Plugin.new_parser(conf['format'])
+      @parser = Plugin.new_parser(@format)
       @parser.configure(conf)
     end
 
