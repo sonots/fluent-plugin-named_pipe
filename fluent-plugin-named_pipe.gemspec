@@ -16,7 +16,7 @@ Gem::Specification.new do |s|
   s.executables   = `git ls-files -- bin/*`.split("\n").map{ |f| File.basename(f) }
   s.require_paths = ["lib"]
 
-  s.add_runtime_dependency "fluentd", [">= 0.10.58", "< 2"]
+  s.add_runtime_dependency "fluentd", ">= 0.10.58"
   s.add_runtime_dependency "ruby-fifo"
   if RUBY_PLATFORM =~ /mswin|mingw/i
     s.add_runtime_dependency "win32-pipe"
