@@ -53,6 +53,7 @@ module Fluent
           else
             log.warn "Pattern not match: #{line.inspect}"
           end
+        rescue TypeError
         rescue => e
           log.error "in_named_pipe: unexpected error", :error_class => e.class, :error => e.to_s
           log.error_backtrace
