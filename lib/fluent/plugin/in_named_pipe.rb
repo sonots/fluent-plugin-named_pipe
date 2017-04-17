@@ -11,7 +11,7 @@ module Fluent
     end
 
     def initialize
-      require 'fifo'
+      require 'ruby-fifo'
       super
     end
 

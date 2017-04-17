@@ -1,7 +1,7 @@
 require_relative 'helper'
 require 'fluent/test'
 require 'fluent/plugin/out_named_pipe'
-require 'fifo'
+require 'ruby-fifo'
 
 Fluent::Test.setup
 
