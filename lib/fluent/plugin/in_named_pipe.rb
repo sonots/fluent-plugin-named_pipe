@@ -1,3 +1,5 @@
+require 'fluent/input'
+
 module Fluent
   class NamedPipeInput < Input
     Fluent::Plugin.register_input('named_pipe', self)
