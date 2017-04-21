@@ -12,6 +12,11 @@ module Fluent
       define_method(:log) { $log }
     end
 
+    # Define `router` method of v0.12 to support v0.10 or earlier
+    unless method_defined?(:router)
+      define_method("router") { Fluent::Engine }
+    end
+
     def initialize
       require 'fifo'
       super
@@ -51,7 +56,7 @@ module Fluent
           line = @pipe.readline # blocking
           time, record = @parser.parse(line)
           if time and record
-            Engine.emit(@tag, time, record)
+            router.emit(@tag, time, record)
           else
             log.warn "Pattern not match: #{line.inspect}"
           end
