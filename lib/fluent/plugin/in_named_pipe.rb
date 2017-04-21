@@ -54,11 +54,12 @@ module Fluent
       while @running
         begin
           line = @pipe.readline # blocking
-          time, record = @parser.parse(line)
-          if time and record
-            router.emit(@tag, time, record)
-          else
-            log.warn "Pattern not match: #{line.inspect}"
+          @parser.parse(line) do |time, record|
+            if time and record
+              router.emit(@tag, time, record)
+            else
+              log.warn "Pattern not match: #{line.inspect}"
+            end
           end
         rescue => e
           log.error "in_named_pipe: unexpected error", :error_class => e.class, :error => e.to_s
