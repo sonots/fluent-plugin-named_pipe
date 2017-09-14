@@ -1,3 +1,5 @@
+require 'fluent/input'
+
 module Fluent
   class NamedPipeInput < Input
     Fluent::Plugin.register_input('named_pipe', self)
@@ -8,6 +10,11 @@ module Fluent
 
     unless method_defined?(:log)
       define_method(:log) { $log }
+    end
+
+    # Define `router` method of v0.12 to support v0.10 or earlier
+    unless method_defined?(:router)
+      define_method("router") { Fluent::Engine }
     end
 
     def initialize
@@ -47,11 +54,12 @@ module Fluent
       while @running
         begin
           line = @pipe.readline # blocking
-          time, record = @parser.parse(line)
-          if time and record
-            Engine.emit(@tag, time, record)
-          else
-            log.warn "Pattern not match: #{line.inspect}"
+          @parser.parse(line) do |time, record|
+            if time and record
+              router.emit(@tag, time, record)
+            else
+              log.warn "Pattern not match: #{line.inspect}"
+            end
           end
         rescue => e
           log.error "in_named_pipe: unexpected error", :error_class => e.class, :error => e.to_s
