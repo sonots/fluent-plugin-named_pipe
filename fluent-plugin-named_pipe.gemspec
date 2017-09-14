@@ -17,7 +17,7 @@ Gem::Specification.new do |s|
   s.require_paths = ["lib"]
 
   s.add_runtime_dependency "fluentd", ">= 0.10.58"
-  s.add_runtime_dependency "ruby-fifo", "0.0.1"
+  s.add_runtime_dependency "ruby-fifo"
   if RUBY_PLATFORM =~ /mswin|mingw/i
     s.add_runtime_dependency "win32-pipe"
   else
