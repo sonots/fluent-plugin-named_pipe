@@ -1,4 +1,5 @@
 require 'forwardable'
+require 'mkfifo'
 
 class Fifo
   include Forwardable
