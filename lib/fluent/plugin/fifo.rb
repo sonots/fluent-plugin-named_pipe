@@ -36,9 +36,6 @@ class Fifo
   def readline
     while nil == (idx = @buf.index("\n")) do
       while nil == (tmp = self.read(1)) do
-      # while nil == (tmp = self.gets) do
-        p '* nil'
-        p tmp
         # reopen
         @pipe.close
         @pipe.open

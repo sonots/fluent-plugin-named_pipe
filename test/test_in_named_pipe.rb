@@ -53,6 +53,27 @@ class NamedPipeInputTest < Test::Unit::TestCase
         assert_equal({"foo"=>"bar\n"}, record)
       end
     end
+
+    
+    test 'fragmented emit' do
+      d = create_driver(CONFIG)
+      d.run {
+        pipe = Fifo.new(TEST_PATH, :w)
+        pipe.write "fo"
+        sleep 0.2
+        pipe.write "o:ba"
+        sleep 0.2
+        pipe.write "r\n"
+      }
+
+      emits = d.emits
+      emits.each do |tag, time, record|
+        assert_equal("named_pipe", tag)
+        assert_equal({"foo"=>"bar\n"}, record)
+      end
+    end
+
+    
   end
 end
 
