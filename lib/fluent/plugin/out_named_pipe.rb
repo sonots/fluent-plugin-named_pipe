@@ -10,7 +10,7 @@ module Fluent
     end
 
     def initialize
-      require 'fifo'
+      require_relative 'fifo'
       super
     end
 
@@ -18,7 +18,7 @@ module Fluent
       super
 
       begin
-        @pipe = Fifo.new(@path, :w, :nowait)
+        @pipe = Fifo.new(@path, :w)
       rescue => e
         raise ConfigError, "#{e.class}: #{e.message}"
       end

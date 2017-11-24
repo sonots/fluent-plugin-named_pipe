@@ -43,7 +43,7 @@ class NamedPipeInputTest < Test::Unit::TestCase
     test 'read and emit' do
       d = create_driver(CONFIG)
       d.run {
-        pipe = Fifo.new(TEST_PATH, :w, :nowait)
+        pipe = Fifo.new(TEST_PATH, :w)
         pipe.write "foo:bar\n"
       }
 
