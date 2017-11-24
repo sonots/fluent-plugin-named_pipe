@@ -35,10 +35,17 @@ class Fifo
 
   def readline
     while nil == (idx = @buf.index("\n")) do
-      while nil == (tmp = self.read(1)) do
-        # reopen
-        @pipe.close
-        @pipe.open
+      # while nil == (tmp = self.read(1)) do
+      tmp = ''
+      while true
+        begin
+          s = @pipe.sysread(0xffff, tmp)
+          p s
+        rescue EOFError => e
+          # reopen
+          @pipe.close
+          @pipe.open
+        end
       end
 
       @buf << tmp
