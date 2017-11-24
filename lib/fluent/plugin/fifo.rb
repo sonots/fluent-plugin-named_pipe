@@ -29,26 +29,20 @@ class Fifo
 
   def open
     m = {:r => 'r+', :w => 'w+'}[@mode]
-    # p "open %s %s" % [@file_path, m]
     @pipe = Pipe.open(@file_path, m)
   end
 
   def readline
     while nil == (idx = @buf.index("\n")) do
-      # while nil == (tmp = self.read(1)) do
       tmp = ''
-      while true
-        begin
-          s = @pipe.sysread(0xffff, tmp)
-          p s
-        rescue EOFError => e
-          # reopen
-          @pipe.close
-          @pipe.open
-        end
+      begin
+        s = @pipe.sysread(0xffff, tmp)
+        @buf << s
+      rescue EOFError => e
+        # reopen
+        @pipe.close
+        @pipe.open
       end
-
-      @buf << tmp
     end
 
     line = @buf[0, idx + 1]
