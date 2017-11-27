@@ -54,10 +54,7 @@ module Fluent
       while @running
         begin
           line = @pipe.readline # blocking
-          if line.nil?
-            p 'timeout'
-            next
-          end
+          next if line.nil?
           
           @parser.parse(line) do |time, record|
             if time and record
