@@ -33,6 +33,9 @@ class Fifo
   end
 
   def readline
+    res = IO.select([@pipe], [], [], 1)
+    return nil if res.nil?
+    
     while nil == (idx = @buf.index("\n")) do
       tmp = ''
       begin

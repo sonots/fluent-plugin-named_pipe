@@ -54,6 +54,11 @@ module Fluent
       while @running
         begin
           line = @pipe.readline # blocking
+          if line.nil?
+            p 'timeout'
+            next
+          end
+          
           @parser.parse(line) do |time, record|
             if time and record
               router.emit(@tag, time, record)
