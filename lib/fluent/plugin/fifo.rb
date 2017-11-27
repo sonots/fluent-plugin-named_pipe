@@ -3,7 +3,9 @@ require 'mkfifo'
 
 class Fifo
   include Forwardable
-  
+
+  READ_TIMEOUT = 1
+
   class Pipe < ::File
     alias :orig_write :write
     def write(*args)
@@ -33,7 +35,7 @@ class Fifo
   end
 
   def readline
-    res = IO.select([@pipe], [], [], 1)
+    res = IO.select([@pipe], [], [], READ_TIMEOUT)
     return nil if res.nil?
     
     while nil == (idx = @buf.index("\n")) do
