@@ -1,3 +1,15 @@
+## 0.2.0 (2017/12/02)
+
+Changes:
+
+* Drop Windows Support
+
+Enhancenments:
+
+* Create lib/fluent/plugin/fifo.rb as own fifo library because `ruby-fifo` gem looks like not maintained (thanks to m-mizutani)
+  * Use `IO.sysread instead` of `File.read` to avoid read blocking 
+  * Add error handling for EOF
+
 ## 0.1.2 (2015/08/04)
 
 Fixes:
