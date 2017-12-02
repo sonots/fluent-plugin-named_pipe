@@ -18,7 +18,7 @@ module Fluent
     end
 
     def initialize
-      require 'fifo'
+      require_relative 'fifo'
       super
     end
 
@@ -26,7 +26,7 @@ module Fluent
       super
 
       begin
-        pipe = Fifo.new(@path, :r, :nowait)
+        pipe = Fifo.new(@path, :r)
         pipe.close # just to try open
       rescue => e
         raise ConfigError, "#{e.class}: #{e.message}"
@@ -49,11 +49,13 @@ module Fluent
     end
 
     def run
-      @pipe = Fifo.new(@path, :r, :wait)
+      @pipe = Fifo.new(@path, :r)
 
       while @running
         begin
           line = @pipe.readline # blocking
+          next if line.nil?
+          
           @parser.parse(line) do |time, record|
             if time and record
               router.emit(@tag, time, record)
