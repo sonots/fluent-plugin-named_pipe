@@ -45,6 +45,7 @@ class NamedPipeInputTest < Test::Unit::TestCase
       d.run {
         pipe = ::Fluent::PluginNamedPipe::Fifo.new(TEST_PATH, :w)
         pipe.write "foo:bar\n"
+        pipe.flush
       }
 
       emits = d.emits
@@ -60,10 +61,13 @@ class NamedPipeInputTest < Test::Unit::TestCase
       d.run {
         pipe = ::Fluent::PluginNamedPipe::Fifo.new(TEST_PATH, :w)
         pipe.write "fo"
+        pipe.flush
         sleep 0.2
         pipe.write "o:ba"
+        pipe.flush
         sleep 0.2
         pipe.write "r\n"
+        pipe.flush
       }
 
       emits = d.emits

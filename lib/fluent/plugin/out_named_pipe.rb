@@ -31,6 +31,7 @@ module Fluent
     def emit(tag, es, chain)
       es.each do |time, record|
         @pipe.write @formatter.format(tag, time, record)
+        @pipe.flush
       end
 
       chain.next
