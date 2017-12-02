@@ -1,4 +1,5 @@
 require 'fluent/input'
+require_relative 'named_pipe/fifo'
 
 module Fluent
   class NamedPipeInput < Input
@@ -17,16 +18,11 @@ module Fluent
       define_method("router") { Fluent::Engine }
     end
 
-    def initialize
-      require_relative 'fifo'
-      super
-    end
-
     def configure(conf)
       super
 
       begin
-        pipe = Fifo.new(@path, :r)
+        pipe = PluginNamedPipe::Fifo.new(@path, :r)
         pipe.close # just to try open
       rescue => e
         raise ConfigError, "#{e.class}: #{e.message}"
@@ -49,7 +45,7 @@ module Fluent
     end
 
     def run
-      @pipe = Fifo.new(@path, :r)
+      @pipe = PluginNamedPipe::Fifo.new(@path, :r)
 
       while @running
         begin

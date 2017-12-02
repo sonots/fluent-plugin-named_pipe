@@ -43,7 +43,7 @@ class NamedPipeInputTest < Test::Unit::TestCase
     test 'read and emit' do
       d = create_driver(CONFIG)
       d.run {
-        pipe = Fifo.new(TEST_PATH, :w)
+        pipe = ::Fluent::PluginNamedPipe::Fifo.new(TEST_PATH, :w)
         pipe.write "foo:bar\n"
       }
 
@@ -58,7 +58,7 @@ class NamedPipeInputTest < Test::Unit::TestCase
     test 'fragmented emit' do
       d = create_driver(CONFIG)
       d.run {
-        pipe = Fifo.new(TEST_PATH, :w)
+        pipe = ::Fluent::PluginNamedPipe::Fifo.new(TEST_PATH, :w)
         pipe.write "fo"
         sleep 0.2
         pipe.write "o:ba"
