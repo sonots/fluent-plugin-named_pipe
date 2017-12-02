@@ -1,7 +1,6 @@
 require_relative 'helper'
 require 'fluent/test'
 require 'fluent/plugin/out_named_pipe'
-require 'fluent/plugin/fifo'
 
 Fluent::Test.setup
 
@@ -48,7 +47,7 @@ class NamedPipeOutputTest < Test::Unit::TestCase
     test 'reader is waiting' do
       readline = nil
       thread = Thread.new {
-        pipe = Fifo.new(TEST_PATH, :r)
+        pipe = ::Fluent::PluginNamedPipe::Fifo.new(TEST_PATH, :r)
         readline = pipe.readline
       }
 

@@ -17,6 +17,7 @@ Gem::Specification.new do |s|
   s.require_paths = ["lib"]
 
   s.add_runtime_dependency "fluentd", ">= 0.10.58"
+  # File.mkfifo is available from ruby >= 2.3.0, though
   s.add_runtime_dependency "mkfifo"
 
   s.add_development_dependency "rake"

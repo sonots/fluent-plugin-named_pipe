@@ -1,3 +1,5 @@
+require_relative 'named_pipe/fifo'
+
 module Fluent
   class NamedPipeOutput < Output
     Plugin.register_output('named_pipe', self)
@@ -9,16 +11,11 @@ module Fluent
       define_method(:log) { $log }
     end
 
-    def initialize
-      require_relative 'fifo'
-      super
-    end
-
     def configure(conf)
       super
 
       begin
-        @pipe = Fifo.new(@path, :w)
+        @pipe = PluginNamedPipe::Fifo.new(@path, :w)
       rescue => e
         raise ConfigError, "#{e.class}: #{e.message}"
       end
@@ -34,6 +31,7 @@ module Fluent
     def emit(tag, es, chain)
       es.each do |time, record|
         @pipe.write @formatter.format(tag, time, record)
+        @pipe.flush
       end
 
       chain.next
