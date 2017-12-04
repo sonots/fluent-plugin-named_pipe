@@ -23,6 +23,8 @@ module Fluent
 
       def_delegators :@pipe, :read, :write, :close, :flush
 
+      # open(path, 'w') raises Errno::EPIPE if its reader once closes FIFO, but
+      # open(path, 'w+') can continue writing even if its reader closes FIFO.
       def open
         m = {:r => 'r+', :w => 'w+'}[@mode]
         @pipe = File.open(@file_path, m)
