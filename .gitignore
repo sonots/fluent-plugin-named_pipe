@@ -12,3 +12,4 @@ coverage
 .yardoc
 .ruby-version
 pkg/*
+.idea
