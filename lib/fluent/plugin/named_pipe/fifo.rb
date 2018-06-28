@@ -31,6 +31,12 @@ module Fluent
       end
 
       def readline
+        if nil != (idx = @buf.index("\n"))
+          line = @buf[0, idx + 1]
+          @buf = @buf[idx + 1, @buf.length - line.length]
+          return line
+        end
+
         res = IO.select([@pipe], [], [], READ_TIMEOUT)
         return nil if res.nil?
 
